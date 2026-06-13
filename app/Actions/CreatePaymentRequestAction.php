@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\PaymentStatus;
+use App\Facades\ExchangeRate;
 use App\Models\PaymentRequest;
 use App\Models\User;
 
@@ -18,11 +19,10 @@ class CreatePaymentRequestAction
 
     public function execute(User $requester, array $data): PaymentRequest
     {
-        $originalCurrency = strtoupper($data['original_currency'] ?? $requester->currency_code);
+        $originalCurrency = strtoupper($data['currency'] ?? $requester->currency);
         $targetCurrency = strtoupper($data['target_currency'] ?? 'EUR');
 
-        // Temporário. Depois trocamos pela Facade/Service de câmbio.
-        $exchangeRate = 1.00;
+        $exchangeRate = ExchangeRate::getRate($originalCurrency, $targetCurrency);
 
         $convertedAmount = round(
             $data['amount'] * $exchangeRate,
@@ -32,8 +32,8 @@ class CreatePaymentRequestAction
         return PaymentRequest::create([
             'requester_id' => $requester->id,
             'status' => PaymentStatus::Pending,
-            'original_amount' => $data['amount'],
-            'original_currency' => $originalCurrency,
+            'amount' => $data['amount'],
+            'currency' => $originalCurrency,
             'target_currency' => $targetCurrency,
             'exchange_rate' => $exchangeRate,
             'converted_amount' => $convertedAmount,
