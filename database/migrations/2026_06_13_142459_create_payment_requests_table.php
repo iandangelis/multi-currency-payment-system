@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'approver_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('rejected_at')->nullable();
-            $table->timestamp('expired_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
 
             $table->timestamps();
         });

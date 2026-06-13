@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained();
+            $table->foreignIdFor(Role::class, 'role_id')->constrained();
         });
     }
 
@@ -21,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropColumns('users', 'role_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeignIdFor(Role::class, 'role_id');
+        });
     }
 };
