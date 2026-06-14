@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(PaymentRequest::class, 'approver_id');
     }
+
+    public function isFinance(): bool
+    {
+        return $this->role->name === 'finance';
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->role->name === 'employee';
+    }
 }

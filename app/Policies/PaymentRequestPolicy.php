@@ -23,7 +23,7 @@ class PaymentRequestPolicy
      */
     public function view(User $user, PaymentRequest $paymentRequest): bool
     {
-        return $user->role->name === 'finance' || $paymentRequest->requester_id === $user->id;
+        return $user->isFinance() || $paymentRequest->requester_id === $user->id;
     }
 
     /**

@@ -14,18 +14,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->employee()->create([
+        $employeeRole = Role::firstOrCreate([
+            'name' => 'employee'
+        ]);
+
+        $financeRole = Role::firstOrCreate([
+            'name' => 'finance'
+        ]);
+
+        User::factory()->for($employeeRole)->create([
             'name' => 'Test User Employee',
             'email' => 'employee@example.com',
         ]);
 
-        User::factory()->finance()->create([
+        User::factory()->for($financeRole)->create([
             'name' => 'Test User Finance',
             'email' => 'finance@example.com',
-        ]);
-
-        $employeeRole = Role::firstOrCreate([
-            'name' => 'employee'
         ]);
 
         User::create([

@@ -27,6 +27,10 @@ class PaymentRequestController extends Controller
             $query->where('status', $request->string('status')->lower());
         }
 
+        if (! $request->user()->isFinance()) {
+            $query->where('requester_id', $request->user()->id);
+        }
+
         return response()->json([
             'data' => $query->paginate(10)
         ]);
@@ -34,7 +38,7 @@ class PaymentRequestController extends Controller
 
     public function show(PaymentRequest $paymentRequest): JsonResponse
     {
-        $this->authorize('view', PaymentRequest::class);
+        $this->authorize('view', $paymentRequest);
 
         return response()->json([
             'data' => $paymentRequest->load(['requester', 'approver'])
@@ -58,7 +62,7 @@ class PaymentRequestController extends Controller
 
     public function approve(PaymentRequest $paymentRequest, ApprovePaymentRequestAction $action): JsonResponse
     {
-        $this->authorize('approve', PaymentRequest::class);
+        $this->authorize('approve', $paymentRequest);
 
         $paymentRequest = $action->execute(
             $paymentRequest,
@@ -73,7 +77,7 @@ class PaymentRequestController extends Controller
 
     public function reject(PaymentRequest $paymentRequest, RejectPaymentRequestAction $action): JsonResponse
     {
-        $this->authorize('reject', PaymentRequest::class);
+        $this->authorize('reject', $paymentRequest);
 
         $paymentRequest = $action->execute(
             $paymentRequest,
