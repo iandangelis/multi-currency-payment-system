@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'exchange_rate' => [
+        'source' => env('EXCHANGE_RATE_SOURCE', 'exchange-rate-api'),
+    ]
+
 ];

@@ -19,6 +19,8 @@ class PaymentRequest extends Model
         'currency',
         'target_currency',
         'exchange_rate',
+        'exchange_rate_source',
+        'exchange_rate_fetched_at',
         'converted_amount',
         'approved_at',
         'rejected_at',
@@ -28,10 +30,11 @@ class PaymentRequest extends Model
     protected function casts(): array
     {
         return [
-            'status'        => PaymentStatus::class,
-            'approved_at'   => 'datetime',
-            'rejected_at'   => 'datetime',
-            'expired_at'    => 'datetime',
+            'status'                    => PaymentStatus::class,
+            'approved_at'               => 'datetime',
+            'rejected_at'               => 'datetime',
+            'expires_at'                => 'datetime',
+            'exchange_rate_fetched_at'  => 'datetime',
         ];
     }
 

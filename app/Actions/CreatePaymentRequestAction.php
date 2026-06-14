@@ -19,23 +19,21 @@ class CreatePaymentRequestAction
 
     public function execute(User $requester, array $data): PaymentRequest
     {
-        $originalCurrency = strtoupper($data['currency'] ?? $requester->currency);
-        $targetCurrency = strtoupper($data['target_currency'] ?? 'EUR');
+        $currency = strtoupper($data['currency'] ?? $requester->currency);
 
-        $exchangeRate = ExchangeRate::getRate($originalCurrency, $targetCurrency);
+        $exchangeRate = ExchangeRate::getRate('EUR', $currency);
 
-        $convertedAmount = round(
-            $data['amount'] * $exchangeRate,
-            2
-        );
+        $convertedAmount = round($data['amount'] / $exchangeRate, 2);
 
         return PaymentRequest::create([
             'requester_id' => $requester->id,
             'status' => PaymentStatus::Pending,
             'amount' => $data['amount'],
-            'currency' => $originalCurrency,
-            'target_currency' => $targetCurrency,
+            'currency' => $currency,
+            'target_currency' => 'EUR',
             'exchange_rate' => $exchangeRate,
+            'exchange_rate_source' => config('services.exchange_rate.source'),
+            'exchange_rate_fetched_at' => now(),
             'converted_amount' => $convertedAmount,
             'expires_at' => now()->addHours(48),
         ]);
