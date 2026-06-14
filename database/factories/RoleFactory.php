@@ -18,7 +18,24 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->randomElement([
+                'employee',
+                'finance',
+            ]),
         ];
+    }
+
+    public function employee(): static
+    {
+        return $this->state(fn () => [
+            'name' => 'employee',
+        ]);
+    }
+
+    public function finance(): static
+    {
+        return $this->state(fn () => [
+            'name' => 'finance',
+        ]);
     }
 }

@@ -17,6 +17,19 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
+    private const CURRENCIES = [
+        'USD',
+        'BRL',
+        'GBP',
+        'CAD',
+        'AUD',
+        'JPY',
+        'CHF',
+        'SEK',
+        'NOK',
+        'NZD',
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -28,10 +41,11 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
+            'role_id' => Role::factory(),
             'country' => fake()->country(),
-            'currency' => fake()->countryCode()
+            'currency' => fake()->randomElement(self::CURRENCIES),
         ];
     }
 
@@ -40,22 +54,22 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
 
     public function employee(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'role_id' => Role::where('name', 'employee')->first()->id,
-        ]);
+        return $this->for(
+            Role::factory()->employee()
+        );
     }
 
     public function finance(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'role_id' => Role::where('name', 'finance')->first()->id,
-        ]);
+        return $this->for(
+            Role::factory()->finance()
+        );
     }
 }

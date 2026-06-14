@@ -15,16 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-        ]);
-
-        User::factory()->employee()->create([
-            'name' => 'Test User Employee',
-            'email' => 'employee@example.com',
-        ]);
-
-        User::factory()->finance()->create([
-            'name' => 'Test User Finance',
-            'email' => 'finance@example.com',
+            UserSeeder::class,
+            PaymentRequestSeeder::class,
         ]);
     }
 }
