@@ -38,7 +38,7 @@ The system automatically retrieves and stores exchange rates at the time of requ
 Clone the repository:
 
 ```bash
-git clone <https://github.com/iandangelis/multi-currency-payment-system.git>
+git clone https://github.com/iandangelis/multi-currency-payment-system.git
 cd multi-currency-payment-system
 ```
 
@@ -267,7 +267,7 @@ docs/postman/Multi-Currency-Payment-System.postman_collection.json
 Published Documentation:
 
 ```text
-<https://documenter.getpostman.com/view/34198998/2sBXwtooct>
+https://documenter.getpostman.com/view/34198998/2sBXwtooct
 ```
 
 ---
