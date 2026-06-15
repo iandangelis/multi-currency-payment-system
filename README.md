@@ -198,6 +198,15 @@ POST /api/register
 }
 ```
 
+All newly registered users are assigned the Employee role by default.
+
+For demonstration and testing purposes, a Finance user is available through the database seeder:
+
+Email: finance@example.test
+Password: password
+
+This account can be used to test finance-specific operations such as approving and rejecting payment requests.
+
 ### Login
 
 ```http
@@ -280,3 +289,6 @@ Published Documentation:
 * Queue processing for external integrations
 * Notification system for request status updates
 * Enhanced auditing and activity logs
+* Introduce an Admin role responsible for user administration and role assignment.
+* Support additional role types and permission-based access control.
+* Implement a scalable RBAC (Role-Based Access Control) system for fine-grained authorization.
