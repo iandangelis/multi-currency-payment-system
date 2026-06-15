@@ -68,11 +68,11 @@ class PaymentRequestPolicy
 
     public function approve(User $user, PaymentRequest $paymentRequest): bool
     {
-        return $user->role->name === 'finance' && $paymentRequest->status === PaymentStatus::Pending;
+        return $user->role->name === 'finance';
     }
 
     public function reject(User $user, PaymentRequest $paymentRequest): bool
     {
-        return $user->role->name === 'finance' && $paymentRequest->status === PaymentStatus::Pending;
+        return $user->role->name === 'finance';
     }
 }
